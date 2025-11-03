@@ -9,6 +9,6 @@ def calcu():
             r = eval(n)
             print(f"Resultado {r}")
         except:
-            print("Expresionnnnn incorrecta, ingrese un valor correspondiente")
+            print("Expresion incorrecta, ingrese un valor correspondiente")
 
 calcu()
