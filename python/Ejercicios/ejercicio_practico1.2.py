@@ -1,0 +1,13 @@
+texto_usuario = input("Introduzca el texto aqui--> ")
+calcular_palabras = texto_usuario.split(" ")
+cantidad_palabras = len(calcular_palabras)
+dalto_dice = round(cantidad_palabras /2.6 ,1)
+print("-------------------")
+print(f"dijiste {cantidad_palabras} palabras y tardarias {cantidad_palabras/2} segundos en decirlas")
+print("-------------------")
+print(f"dalto lo diria en {dalto_dice} segundos")
+print("-------------------")
+if cantidad_palabras > 120:
+    print("para flaco, tampoco te pedi un testamento")
+    print("-------------------")
+else: print("Dale gracias")

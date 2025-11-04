@@ -1,0 +1,12 @@
+Los datos son 
+
+El nombre es: Jere y el apellido es: More
+-------------------
+El nombre es: Lau y el apellido es: Sob
+-------------------
+El nombre es: Emi y el apellido es: More
+-------------------
+El nombre es: Copito y el apellido es: Fofo
+-------------------
+El nombre es: Gato y el apellido es: Amargado
+-------------------
