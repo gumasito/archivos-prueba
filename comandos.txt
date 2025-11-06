@@ -1,0 +1,53 @@
++git commit -m "#mensaje"
++git commit : abre una archivo para escribir detalladamente lo que vamos a enviar como mensaje :)
++<!--Básicamente con el commit lo que hacemos es subir los archivos que esten en la zona de preparación con un mensaje para luego saber de que trata la modificación que hemos hecho.-->
++git restore
++git checkout: lo que hace es volver a los valores guardados al hacer commit, caso que te puede salvar es sin querer borrar archivos y guardarlos, podes poner "git checkout #archivo" y se recuperarán los datos
++git reset --hard: lo que hace es similar a checkout, pero solo a los archivos que esten en la fase de preparación, de forma en la que va a las ultimas versiones de guardado y lo vuelve a usar.
++git reset --soft #head~posicion/indice: Loo que hace es agarrar el ultimo/los últimos y llevarlos al área -staged para ser modificados si es necesario y posicionar el "head" en la posición que le indiquemos con el parámetro dado.(si habían archivos repetidos, se van a sobreescribir, y los otros se mantendrán)
++git mv "#nombre" "#nombre_nuevo": para cambiar el nombre de un archivo, "checkout #nombre" para volver al nombre/data q tenia
++git config --global core.abbrev #numero
++git log: saber los archivos commiteados
++git log --oneline: para saber el índice de cada archivo y sus comentarios
+git log --oneline -all: muestra todos los commits de todas las ramas
++git diff --word-diff #indice1 #indice2: diferenciar el contenido y propiedades de 2 archivos
++git diff --name-only #indice1 #indice2: diferenciar el nombre de los 2 archivos
++git diff --staged: muestra diferencia entre valores dentro del commit con los del área de stage
++<!-- comentario al respecto para comparar. Primero debemos colocar el índice del archivo viejo, y luego del nuevo, ya que podremos diferenciar mejor los cambios. Si colocamos el nuevo primero, marcará como si se estuviesen quitando contenido de lo que en realidad fue agregado y viceversa con el contenido viejo.-->
++<!--explicación de como cambiar el head de posición y asi poder realizar modificaciones en un archivo antiguo-->
++git commit --amend: cambia el ultimo commit por un archivo que este en el estado -staged, colocamos el comentario del commit a modificar y cerramos la pestaña
+En pocas palabras, el "git commit --amend" lo que hace es cambiar el commit actual por lo que agreguemos, como que sobreescribe lo que ya estaba
++git Branch: muestra lista de ramas
++git branch #nombre: crea una rama
++git branch -c #nombre: crea y posiciona en la rama nueva
++git branch -d #nombre: elimina rama.
++git branch -m #nombre: cambia el nombre de la rama en posición
++git branch -m #nombre_rama #nombre_nuevo: cambia el nombre de la rama nombrada
+git switch #nombre rama
+git switch -c #nombre_rama: crea y posiciona en la rama
+git show --name-only #indice: muestran los nombres de los archivos
+git show #indice: muestra el contenido de los archivos
+git merge #ERROR: si hay error, tendremos que abrir el código y ver los cambios que nos muestran del commit anterior y del commit entrante, y ver cual de ambos elegir para trabajar. Luego de hacer los cambios se debe escribir "git merge continue" para poder continuar con la linea del árbol
+git Branch -f #cosas (ej: main HEAD~2): No se puede hacer en la rama en la que estas, siempre como tercero.
+git ls-tree -r --name-only #hash: nos muestra todos los archivos en el commit seleccionado. "-r" para mostrar también los directorios
+ignorando archivos: creando .gitignore y escribiendo dentro del archivo los archivos ignorados. Varias formas de poder ignorar, la primera es la mas sencilla, escribiendo el nombre completo y el formato. La segunda es con un "*" y luego el formato del archivo (asi se puede ignorar todos los archivos del formato deseado). La tercera es con "*" y después un símbolo en especifico para especificar mas los archivos que serán ignorados.
+También se pueden ignorar carpetas y el contenido de ellas.
+Des-Ignorando archivos: se usa "!" antes del archivo para poder des-ignorarlo y subirlo al repositorio
+En vez de crear un archivo ".gitignore" para cada repo que creemos, se puede usar una versión global para poder ignorar los archivos. Escribiendo "git config --global core.excludesfile #ruta_archivo" se agregara el archivo ".gitignore" que creemos y nos excluirá lo que le escribamos
+git log --oneline --all --graph --pretty=format:"%C(auto)%h%d %s %C(black)%C(bold)%cr" <-- esto muestra lo mismo que "git log --oneline --graph --decorate" pero con el tiempo en que los commits se hayan hecho
+Usando alias <-- los alias son como los snippets pero en git.
+Se debe colocar "git config --global alias.#nombre "#comando" (si el comando tiene comillas dobles, se deberán cambiar por comillas simples).
+git reflog: muestra todo el historial de actividades hechas
+git checkout #indice: posiciona el head a un archivo en vez de a una rama, esto nos permite recuperar estados de archivos y poder recuperarlo a través de enviándolos a una rama y después volver a hacerle un merge
+
+GITHUB!!!
+crear cuenta
+crear repositorio
+configurarlo un poco
+agregar archivos
+copiar URL del repo que querramos
+luego debemos entrar a  git y poner "git clone #url" para descargar un repositorio
+git push: el git push es para subir un repositorio a GitHub, y esto es a través de "git push #origin(creo que es asi la ruta correcta) #rama
+git push --force-with-lease: es un git push --forcé pero evita que se suban datos que no hayan sido agregados con anterioridad, me refiero, solo se podrá hacer un commit si solo se mantiene datos
+git push --forcé: forza el pushear un commit, y se puede usar para volver a un estado anterior del repositorio. Solo se debe usar cuando se esta seguro de lo que se hace
+git Branch -r: para ver las ramas remotas
