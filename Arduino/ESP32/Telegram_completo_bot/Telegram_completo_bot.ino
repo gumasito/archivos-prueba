@@ -3,11 +3,11 @@
 #include <UniversalTelegramBot.h>
 #include <WiFiClientSecure.h>
 
-const char* token = "7579691226:AAEq-6KBvV-_2bwQVhWmM-yC7NLBr0NxaME";
+const char* token = "";
 #define MAX_USERS 10
 String chat_ids[MAX_USERS] = {
-  "7848546381",  // admin
-  "5830886971"
+  "",  // admin
+  ""
 };
 int numUsers = 2; // cantidad inicial de usuarios
 
