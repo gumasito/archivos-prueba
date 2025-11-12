@@ -5,16 +5,16 @@
 
 #define MAX_USERS 10
 
-const char* token = "7579691226:AAEq-6KBvV-_2bwQVhWmM-yC7NLBr0NxaME";
+const char* token = "";
 String chat_ids[] = {
-  "7848546381",
-  "5830886971"
+  "",
+  ""
 };
 int current_users = 2;
 #include <WiFiClientSecure.h>
 
-const char* ssid = "Sobrero Wifi";
-const char* password = "mis03hijos";
+const char* ssid = "";
+const char* password = "";
 unsigned long lastCheck = 0;
 
 WebServer server(80);
