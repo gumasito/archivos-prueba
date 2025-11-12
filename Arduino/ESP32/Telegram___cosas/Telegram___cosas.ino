@@ -4,10 +4,10 @@
 #include <ArduinoOTA.h>
 #include <DHT.h>
 
-const char* ssid = "Sobrero Wifi";
-const char* passw = "mis03hijos";
-const char* botToken = "7579691226:AAEq-6KBvV-_2bwQVhWmM-yC7NLBr0NxaME";
-const String chat_id = "7848546381";
+const char* ssid = "";
+const char* passw = "";
+const char* botToken = "";
+const String chat_id = "";
 
 int pin1 = 33;
 int pin2 = 32;
