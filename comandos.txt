@@ -51,3 +51,20 @@ git push: el git push es para subir un repositorio a GitHub, y esto es a través
 git push --force-with-lease: es un git push --forcé pero evita que se suban datos que no hayan sido agregados con anterioridad, me refiero, solo se podrá hacer un commit si solo se mantiene datos
 git push --forcé: forza el pushear un commit, y se puede usar para volver a un estado anterior del repositorio. Solo se debe usar cuando se esta seguro de lo que se hace
 git Branch -r: para ver las ramas remotas
+git push -u #ruta: la "-u" es una forma corta del comando "--set-upstream" cuyo objetivo es poder asociar el repo local con el repo remoto, para después solo hacer un "git pull/push" sin la necesidad de poner la ruta
+git Branch -vv: para saber las asociaciones con los repo remotos.
+git stash: para guardar cambios pero no en un commit, sino que en un apartado especifico de git. Este guarda los archivos modificados sin ser commiteados
+git stash list: para ver el listado de stash.
+git stash apply: aplica los cambios guardados en general
+git stash appy stash@{#numero}: aplica uno de los cambios.
+git stash pop: aplica cambios y elimina el stash.
+git stash drop stash@{#numero}: elimina el stash
+git stash clear: elimina todos los stash.
+git stash show: muestra el contenido.
+git stash show -p stash@{#numero}: contenido especifico
+git stash -u	Guarda también archivos no seguidos (untracked).
+git stash -a	Guarda todo, incluso los archivos ignorados.
+git stash save "mensaje"	Guarda el stash con una descripción personalizada.
+git stash branch nueva-rama	Crea una nueva rama desde el commit base del stash y aplica los cambios ahí.
+git cherry-pick #indice: esto se debe hacer en la rama main, para poder traer commits de otras ramas a la main.
+git cherry-pick --continue: por si hay error, se debe solucionarse y después continuar.
