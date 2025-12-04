@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prueba 2</title>
+  </head>
+  <body>
+    <div class="cajon">
+      <div class="titulito">
+        <h2>Luces de la casa</h2>
+      </div>
+      <div class="cajitas">
+        <p><b>Todo: </b> <span id="estadoGeneral">Desconocido</span></p>
+        <button onclick="CambiarTodo()">Encender/Apagar Todo</button><br />
+      </div>
+      <div class="cajitas">
+        <span id="estadoLed1">Desconocido</span>
+        <button onclick="CambiarLed1()">Encender/Apagar Led1</button><br />
+      </div>
+      <div class="cajitas">
+        <span id="estadoLed2">Desconocido</span>
+        <button onclick="CambiarLed2()">Encender/Apagar Led2</button><br />
+      </div>
+    </div>
+    <style>
+      .cajon {
+        width: 50%;
+        margin: auto;
+        text-align: center;
+        background-color: #301860;
+        height: 70vhd;
+        margin-top: 10%;
+        border-radius: 8px;
+        padding: 2%;
+        border: #906090 solid 2px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+      }
+      body {
+        background-color: #0e0036;
+      }
+      .titulito {
+        background-color: #483078;
+        padding: 0.1%;
+        width: 50%;
+        margin: auto;
+        border-radius: 6px;
+      }
+      .cajitas {
+        background-color: #483078;
+        padding: 1.5%;
+        width: 50%;
+        margin: auto;
+        overflow: hidden;
+        box-sizing: border-box;
+        font-size: large;
+        border-radius: 6px;
+      }
+      .cajitas > p {
+        margin: 0.9%;
+      }
+      button:active {
+        background-color: #301860;
+        color: #906090;
+      }
+      button:hover {
+        background-color: #301860;
+        color: #906090;
+      }
+    </style>
+    <script>
+      async function CambiarTodo() {
+        try {
+          const res = await fetch("/todo");
+          const texto = await res.text();
+
+          document.getElementById("estadoGeneral").innerText = texto;
+          ActualizarEstados();
+        } catch (err) {
+          document.getElementById("estadoGeneral").innerText = "Error de conexión";
+        }
+      }
+      async function CambiarLed1() {
+        try {
+          const res = await fetch("/uno");
+          const texto = await res.text();
+
+          document.getElementById("estadoLed1").innerText = texto;
+          ActualizarEstados();
+        } catch (err) {
+          document.getElementById("estadoLed1").innerText = "Error de conexión";
+        }
+      }
+      async function CambiarLed2() {
+        try {
+          const res = await fetch("/dos");
+          const texto = await res.text();
+
+          document.getElementById("estadoLed2").innerText = texto;
+          ActualizarEstados();
+        } catch (err) {
+          document.getElementById("estadoLed2").innerText = "Error de conexión";
+        }
+      }
+      function ActualizarEstados() {
+        fetch("/estado")
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("estadoGeneral").innerText = data.general;
+            document.getElementById("estadoLed1").innerText = data.led1;
+            document.getElementById("estadoLed2").innerText = data.led2;
+          });
+      }
+      ActualizarEstados();
+    </script>
+  </body>
+</html>
