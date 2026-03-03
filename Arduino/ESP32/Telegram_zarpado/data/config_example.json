@@ -1,0 +1,16 @@
+//change name to "config.json"
+{
+  "telegram": {
+    "token": "*******", //telegram's token
+    "chat_ids": [
+      "*******", //ids for telegram users
+      "*******"
+    ]
+  },
+  "wifi": {
+    "ssid": "*******", //First SSID option
+    "pass": "*******", //First Wifi password
+    "ssid2": "*******", //second option
+    "pass2": "*******" //second wifi password
+  }
+}

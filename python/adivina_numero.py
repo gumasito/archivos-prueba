@@ -18,13 +18,13 @@ while intentos < max_intentos:
             print("Que lastima, haz perdido :( ")
         else: 
             print("El numero es mas pequeño :(")
-            pregunta2 =input("Deseas seguir jugando?(s/n) --> ").lower()
-            if pregunta2 == "s":
-                continue
-            elif pregunta2 =="n":
-                print("Gracias por participar, nos vemos :)")
-            else:  
-                print("No se que dijiste, pero bueno, puedes repetirlo?")
-                continue
+            #pregunta2 =input("Deseas seguir jugando?(s/n) --> ").lower()
+            #if pregunta2 == "s":
+                #continue
+            #elif pregunta2 =="n":
+                #print("Gracias por participar, nos vemos :)")
+            #else:  
+                #print("No se que dijiste, pero bueno, puedes repetirlo?")
+                #continue
 
         

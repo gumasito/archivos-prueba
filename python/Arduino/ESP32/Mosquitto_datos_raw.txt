@@ -1,0 +1,72 @@
+Client null sending CONNECT
+Client null received CONNACK (0)
+Client null sending SUBSCRIBE (Mid: 1, Topic: prueba/dht21, QoS: 0, Options: 0x00)
+Client null received SUBACK
+Subscribed (mid: 1): 0
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null sending PINGREQ
+Client null received PINGRESP
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null sending CONNECT
+Client null received CONNACK (0)
+Client null sending SUBSCRIBE (Mid: 1, Topic: prueba/dht21, QoS: 0, Options: 0x00)
+Client null received SUBACK
+Subscribed (mid: 1): 0
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00
+Client null received PUBLISH (d0, q0, r0, m0, 'prueba/dht21', ... (11 bytes))
+30.80,50.00

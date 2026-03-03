@@ -3,35 +3,39 @@
 #include <UniversalTelegramBot.h>
 #include "SPIFFS.h"
 #include <WiFiClientSecure.h>
+#include <ArduinoJson.h>
+#include "esp_task_wdt.h"
 
+
+#define WDT_TIMEOUT 10
 #define MAX_USERS 10
 
-const char* token = "******";
-String chat_ids[MAX_USERS] = {
-  "******",
-  "******"
-};
-int current_users = sizeof(chat_ids) / sizeof(chat_ids[0]);
+String telegramToken;
+String chat_ids[MAX_USERS];
+String ssid1, pass1, ssid2, pass2;
 
-const char* ssid = "******";
-const char* password = "******";
-
-const char* ssid2 = "******";
-const char* password2 = "******";
+int current_users = 0;
 
 unsigned long lastCheck = 0;
 
 WebServer server(80);
 WiFiClientSecure client;
-UniversalTelegramBot bot(token, client);
+UniversalTelegramBot* bot; //puntero que busca la variable "bot" con los valores a utilizar
 
 //pines
 const int led1 = 22;
 const int led2 = 23;
 
+const int sensor_pir_puerta = **;
+const int luz_pir_puerta = **;
+
 //estados
 bool estadoLed1 = false;
 bool estadoLed2 = false;
+
+bool estadoPirPuerta = false; //Valor actual de lectura
+bool PIRCheck = false; //Valor anterior de lectura
+static unsigned long lastPIR = 0; //evitar debounce
 
 void ensureWiFi() {
   static unsigned long lastAttempt = 0;
@@ -40,10 +44,64 @@ void ensureWiFi() {
     WiFi.reconnect();
   }
 }
+bool loadConfig() {
+  File conf = SPIFFS.open("/config.json", "r");
+  if (!conf) {
+    Serial.println("Error al abrir config.json");
+    return false;
+  }
+  StaticJsonDocument<1024> docConf;
+  DeserializationError error = deserializeJson(docConf, conf);
+  conf.close();
+  if (error) {
+    Serial.println("Error parseando JSON");
+    return false;
+  }
+  telegramToken = docConf["telegram"]["token"].as<String>();
+  JsonArray ids = docConf["telegram"]["chat_ids"];
+  current_users = 0;
+  for (String id : ids) {
+    chat_ids[current_users++] = id;
+  }
+  ssid1 = docConf["wifi"]["ssid"].as<String>();
+  pass1 = docConf["wifi"]["pass"].as<String>();
+  ssid2 = docConf["wifi"]["ssid2"].as<String>();
+  pass2 = docConf["wifi"]["pass2"].as<String>();
+  return true;
+}
+void saveConfig() {
+  StaticJsonDocument<1024> doc;
+
+  JsonArray ids = doc.createNestedObject("telegram").createNestedArray("chat_ids");
+  for (int i = 0; i < current_users; i++) {
+    ids.add(chat_ids[i]);
+  }
+
+  doc["telegram"]["token"] = telegramToken;
+
+  doc["wifi"]["ssid"] = ssid1;
+  doc["wifi"]["pass"] = pass1;
+  doc["wifi"]["ssid2"] = ssid2;
+  doc["wifi"]["pass2"] = pass2;
+
+  File file = SPIFFS.open("/config.json", "w");
+  serializeJson(doc, file);
+  file.close();
+}
+
 void SendMessageToAll(String message) {
   for (int i = 0; i < current_users; i++) {
     bot.sendMessage(chat_ids[i], message, "");
   }
+}
+
+bool estadoPuerta(int sensor) {
+  estadoPirPuerta = digitalRead(sensor);
+  if (estadoPirPuerta && !PIRCheck) {
+    digitalWrite(luz_pir_puerta, HIGH);
+  }
+  PIRCheck = estadoPirPuerta;
+  return estadoPirPuerta;
 }
 bool usuariosAutorizados(String id) {
   for (int i = 0; i < current_users ; i++) {
@@ -62,10 +120,10 @@ bool agregarUsuario(String nuevoID) {
   return true;
 }
 bool estadoGeneral() {
-  return estadoLed1 && estadoLed2;
+  return estadoLed1 && estadoLed2; // F & F = F - V & V = V - F & V = F
 }
 void ManejarTodo() {
-  bool nuevoValor = !estadoGeneral();
+  bool nuevoValor = !estadoGeneral(); // F = V - V = F
 
   estadoLed1 = nuevoValor;
   estadoLed2 = nuevoValor;
@@ -92,7 +150,7 @@ void ManejarEstado() {
   doc["general"] = estadoGeneral() ? "Estan todas encendidas" : "Estan todas apagadas";
   doc["led1"] = estadoLed1 ? "Led 1 encendido" : "Led 1 apagado";
   doc["led2"] = estadoLed2 ? "Led 2 encendido" : "Led 2 apagado";
-
+  doc["Sensor_PIR"] = estadoPirPuerta ? "Hay Alguien" : "No Hay Nadie";
   String output;
   serializeJson(doc, output);
   server.send(200, "application/json", output);
@@ -107,9 +165,9 @@ void ManejarRoot() {
   file.close();
 }
 String Users(String user) {
-  if (chat_ids[0] == user) {
+  if (chat_ids[0] && current_users > 0 == user) {
     return "admin";
-  } else if (chat_ids[1] == user) {
+  } else if (chat_ids[1] && current_users > 1 == user) {
     return "user1";
   }
   return "desconocido";
@@ -121,19 +179,28 @@ void setup() {
   pinMode(led2, OUTPUT);
   digitalWrite(led1, LOW);
   digitalWrite(led2, LOW);
+  pinMode(sensor_pir_puerta, INPUT);
+  pinMode(luz_pir_puerta, OUTPUT);
+  digitalWrite(luz_pir_puerta, LOW);
+  esp_task_wdt_init(WDT_TIMEOUT,true);
+  esp_task_wdt_add(NULL);
   if (!SPIFFS.begin(true)) {
     Serial.println("Error montando SPIFFS");
   }
-  WiFi.begin(ssid, password);
+  loadConfig(); //funcion para manejar datos de los spiffs de las variables de telegram y conexion a la red
+  if (telegramToken.length() > 0) {
+    bot = new UniversalTelegramBot(telegramToken, client);
+  }
+  WiFi.begin(ssid1.c_str(), pass1.c_str());
   unsigned long startTime = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - startTime < 30000) {  // Wait up to 30s
-    delay(500);
+    delay(300);
     Serial.print(".");
   }
   if (WiFi.status() != WL_CONNECTED) {
     // Fallback to secondary WiFi
     Serial.println("\nFallo en WiFi primario, intentando secundario...");
-    WiFi.begin(ssid2, password2);
+    WiFi.begin(ssid2.c_str(), pass2.c_str());
     startTime = millis();
     while (WiFi.status() != WL_CONNECTED && millis() - startTime < 30000) {
       delay(500);
@@ -172,7 +239,12 @@ void setup() {
 }
 
 void loop() {
-  String script = "/led1: cocina - /led2: pasillo - /todo: todo - /estado: Estado de luces";
+  esp_task_wdt_reset();
+  if (millis() - lastPIR > 500) {
+    estadoPuerta(sensor_pir_puerta);
+    lastPIR = millis();
+  }
+  String script = "/led1: cocina - /led2: pasillo - /todo: todo - /estado: Estado de luces - /sensor: Puerta Casa";
   ensureWiFi();
   if (millis() - lastCheck > 1000) {
     int new_msg = bot.getUpdates(bot.last_message_received + 1);
@@ -188,6 +260,8 @@ void loop() {
         mensaje +=  estadoLed1 ? "Luz 1 Encendida" : "Luz 1 Apagada";
         mensaje += "\n";
         mensaje +=  estadoLed2 ? "Luz 2 Encendida" : "Luz 2 Apagada";
+        mensaje += "\n";
+        mensaje += estadoPirPuerta ? "Hay Alguien" : "No Hay Nadie";
         if (usuariosAutorizados(sender_id)) {
           if (msg == "/help") {
             bot.sendMessage(sender_id, script, "");
@@ -224,22 +298,32 @@ void loop() {
             }
           } else if (msg == "/estado") {
             bot.sendMessage(sender_id, mensaje, "");
+          } else if (msg == "/sensor") {
+            if (estadoPuerta(sensor_pir_puerta)) {
+              bot.sendMessage(sender_id, "Hay Alguien", "");
+            } else {
+              bot.sendMessage(sender_id, "No Hay Nadie", "");
+            }
           } else if (msg.startsWith("/add") && sender_id == chat_ids[0]) {
             int espacio = msg.indexOf(" ");
             if (espacio != -1) {
               String nuevoID = msg.substring(espacio + 1);
               if (agregarUsuario(nuevoID)) {
+                saveConfig();
                 bot.sendMessage(sender_id, "Usuario " + nuevoID + " fue agregado exitosamente", "");
               } else {
                 bot.sendMessage(sender_id, "Ya se ha alcanzado el limite de usuarios o hubo algun error", "");
               }
-            } else {
+            }/* else if (msg == "/reset" && sender == chat_ids[0]) {
+
+            }*/ else {
               bot.sendMessage(sender_id, "Intenta escribir '/add <chat_id>'", "");
             }
-          } else {
-            bot.sendMessage(sender_id, "Intenta escribiendo '/help'", "");
           }
         } else {
+          bot.sendMessage(sender_id, "Intenta escribiendo '/help'", "");
+        }
+        else {
           bot.sendMessage(chat_ids[0], "Se ha intentado unir un intruso", "");
         }
       }

@@ -21,10 +21,17 @@
         <span id="estadoLed2">Desconocido</span>
         <button onclick="CambiarLed2()">Encender/Apagar Led2</button><br />
       </div>
+      <div class="cajitas aside">
+        <span id="estadoPuerta">Desconocido</span>
+      </div>
+      <div class="cajitas info">
+        <button onclick="ActualizarEstados()"><img src="https://cdn-icons-png.flaticon.com/512/5632/5632370.png" height="50"></button>
+      </div>
     </div>
     <style>
       .cajon {
         width: 50%;
+        position:relative;
         margin: auto;
         text-align: center;
         background-color: #301860;
@@ -69,6 +76,19 @@
         background-color: #301860;
         color: #906090;
       }
+      .aside{
+        position: absolute;
+        left:0;
+        width: 15%;
+        text-align: center;
+        margin:auto;
+        padding: 1%;
+        box-sizing: content-box;
+        margin:1%;
+      }
+      .info{
+        
+      }
     </style>
     <script>
       async function CambiarTodo() {
@@ -111,6 +131,7 @@
             document.getElementById("estadoGeneral").innerText = data.general;
             document.getElementById("estadoLed1").innerText = data.led1;
             document.getElementById("estadoLed2").innerText = data.led2;
+            document.getElementById("estadoPuerta").innerText = data.Sensor_PIR;
           });
       }
       ActualizarEstados();

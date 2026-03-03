@@ -1,0 +1,6 @@
+f9: después de agregar un objeto para poder acceder a las propiedades
+shift + click: sobre un vertice y se seleccionan todos los puntos alineados del eje al que se hizo click
+f2: cambiar el nombre
+seleccionar opción de xray para poder ver todos los puntos del mallado y poder seleccionar con el mouse una cierta sección
+h: para esconder ciertos puntos de la malla para no ser modificados si no queremos
+alt + h: para volver a mostrarlos
